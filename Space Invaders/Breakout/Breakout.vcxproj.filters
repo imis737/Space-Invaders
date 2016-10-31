@@ -120,5 +120,14 @@
     <Image Include="Sprites\Background.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Sprites\ScreenshotStarfield.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\ScreenshotStarfieldMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\BackgroundMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
