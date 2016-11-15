@@ -40,21 +40,21 @@ CPaddle::~CPaddle()
 bool
 CPaddle::Initialise()
 {
-    VALIDATE(CEntity::Initialise(IDB_PADDLESPRITE, IDB_PADDLEMASK));
+	VALIDATE(CEntity::Initialise(IDB_PADDLESPRITE, IDB_PADDLEMASK));
 
-    return (true);
+	return (true);
 }
 
 void
 CPaddle::Draw()
 {
-    CEntity::Draw();
+	CEntity::Draw();
 }
 
 void
 CPaddle::Process(float _fDeltaTick)
 {
-    
+	
 	float fHalfPaddleW = m_pSprite->GetWidth() / 2.0;
 
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)

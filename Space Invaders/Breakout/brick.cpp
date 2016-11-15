@@ -41,18 +41,18 @@ CBrick::~CBrick()
 bool
 CBrick::Initialise()
 {
-    VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
+	VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
 
-    return (true);
+	return (true);
 }
 
 void
 CBrick::Draw()
 {
-    if (!m_bHit)
-    {
-        CEntity::Draw();
-    }
+	if (!m_bHit)
+	{
+		CEntity::Draw();
+	}
 }
 
 void
@@ -72,21 +72,21 @@ CBrick::Process(float _fDeltaTick)
 
 	////So when the position of the bricks is less than the 
 
-    if (!m_bHit)
-    {
-        CEntity::Process(_fDeltaTick);
-    }
+	if (!m_bHit)
+	{
+		CEntity::Process(_fDeltaTick);
+	}
 }
 
 void
 CBrick::SetHit(bool _b)
 {
-    m_bHit = _b;
+	m_bHit = _b;
 }
 
 bool
 CBrick::IsHit() const
 {
-    return (m_bHit);
+	return (m_bHit);
 }
 
