@@ -31,6 +31,7 @@
 class CBall;
 class CPaddle;
 class CBrick;
+class CBullet;
 class CFPSCounter;
 class CBackGround;
 
@@ -50,11 +51,14 @@ public:
 
     int GetBricksRemaining() const;
 
+	bool AddPlayerBullet();
+
 protected:
     void ProcessBallWallCollision();
 	void ProcessPaddleWallCollison();
     void ProcessBallPaddleCollision();
     void ProcessBallBrickCollision();
+	void ProcessBulletBrickCollision();
 
     void ProcessCheckForWin();
 
@@ -78,6 +82,8 @@ protected:
     CBall* m_pBall;
     CPaddle* m_pPaddle;
     std::vector<CBrick*> m_vecBricks;
+	//std::vector<CBullet*> m_vecBullets;
+	CBullet* m_pPlayerBullet;
 	CFPSCounter* m_fpsCounter;
 
     int m_iWidth;

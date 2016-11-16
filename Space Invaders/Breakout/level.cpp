@@ -18,6 +18,7 @@
 #include "Game.h"
 #include "Paddle.h"
 #include "Brick.h"
+#include "Bullet.h"
 #include "Ball.h"
 #include "utils.h"
 #include "backbuffer.h"
@@ -139,6 +140,13 @@ CLevel::Draw()
 		m_vecBricks[i]->Draw();
 	}
 
+	/*for (unsigned int i = 0; i < m_vecBullets.size(); ++i)
+	{
+		m_vecBullets[i]->Draw();
+	}*/
+	if (m_pPlayerBullet != NULL)
+		m_pPlayerBullet->Draw();
+
 	m_pPaddle->Draw();
 	m_pBall->Draw();
 
@@ -149,13 +157,22 @@ CLevel::Draw()
 void
 CLevel::Process(float _fDeltaTick)
 {
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		AddPlayerBullet();
+	}
+
 	m_pBackground->Process(_fDeltaTick);
 	m_pBall->Process(_fDeltaTick);
+	if (m_pPlayerBullet != NULL)
+		m_pPlayerBullet->Process(_fDeltaTick);
 	m_pPaddle->Process(_fDeltaTick);
 	ProcessBallWallCollision();
 	//ProcessPaddleWallCollison();
 	ProcessBallPaddleCollision();
 	ProcessBallBrickCollision();
+	if (m_pPlayerBullet != NULL)
+		ProcessBulletBrickCollision();
 
 	ProcessCheckForWin();
 	ProcessBallBounds();
@@ -164,7 +181,11 @@ CLevel::Process(float _fDeltaTick)
 	{
 		m_vecBricks[i]->Process(_fDeltaTick);
 	}
-	
+	/*
+	for (unsigned int i = 0; i < m_vecBullets.size(); ++i)
+	{
+		m_vecBullets[i]->Process(_fDeltaTick);
+	}*/
    
 	
 	m_fpsCounter->CountFramesPerSecond(_fDeltaTick);
@@ -271,6 +292,41 @@ CLevel::ProcessBallBrickCollision()
 }
 
 void
+CLevel::ProcessBulletBrickCollision()
+{
+	for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
+	{
+		if (!m_vecBricks[i]->IsHit())
+		{
+			float fBallR = m_pPlayerBullet->GetRadius();
+
+			float fBallX = m_pPlayerBullet->GetX();
+			float fBallY = m_pPlayerBullet->GetY();
+
+			float fBrickX = m_vecBricks[i]->GetX();
+			float fBrickY = m_vecBricks[i]->GetY();
+
+			float fBrickH = m_vecBricks[i]->GetHeight();
+			float fBrickW = m_vecBricks[i]->GetWidth();
+
+			if ((fBallX + fBallR > fBrickX - fBrickW / 2) &&
+				(fBallX - fBallR < fBrickX + fBrickW / 2) &&
+				(fBallY + fBallR > fBrickY - fBrickH / 2) &&
+				(fBallY - fBallR < fBrickY + fBrickH / 2))
+			{
+				//Hit the front side of the brick...
+				delete m_pPlayerBullet;
+				m_pPlayerBullet = 0;
+				m_vecBricks[i]->SetHit(true);
+
+				SetBricksRemaining(GetBricksRemaining() - 1);
+				return;
+			}
+		}
+	}
+}
+
+void
 CLevel::ProcessCheckForWin()
 {
 	for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
@@ -350,4 +406,16 @@ CLevel::DrawFPS()
 
 	m_fpsCounter->DrawFPSText(hdc, m_iWidth, m_iHeight);
 
+}
+
+bool
+CLevel::AddPlayerBullet()
+{
+	//m_vecBullets.push_back(new CBullet());
+	//m_vecBullets.back()->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -200);
+	if (m_pPlayerBullet == NULL)
+	{
+		m_pPlayerBullet = new CBullet();
+		VALIDATE(m_pPlayerBullet->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -200));
+	}
 }

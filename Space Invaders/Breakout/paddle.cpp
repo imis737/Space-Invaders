@@ -20,6 +20,7 @@
 
 // This Include
 #include "Paddle.h"
+#include "Bullet.h"
 
 // Static Variables
 
@@ -65,6 +66,12 @@ CPaddle::Process(float _fDeltaTick)
 	{ 
 		m_fX -= 800.0f * _fDeltaTick;
 	}
+	//else if (GetAsyncKeyState(VK_UP) & 0x8000)
+	//{
+	//	
+	//	CBullet* pBullet = new CBullet();
+	//	pBullet->Initialise(m_fX, m_fY, 0, -0.1);	// Should there be a 'VALIDATE' call on this line? 
+	//}												//	will require the function to be bool rather than void AFAIK
 	if (m_fX - fHalfPaddleW <= 0)
 	{
 		m_fX = fHalfPaddleW;
