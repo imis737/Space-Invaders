@@ -91,6 +91,9 @@ protected:
 
     int m_iBricksRemaining;
 
+	int m_iAlienSpeed;
+	bool m_bReverseAliens;
+
     std::string m_strScore;
 
 private:

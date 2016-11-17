@@ -61,8 +61,8 @@ CLevel::~CLevel()
 	delete m_pPaddle;
 	m_pPaddle = 0;
 
-	delete m_pBall;
-	m_pBall = 0;
+	//delete m_pBall;
+	//m_pBall = 0;
 
 	delete m_fpsCounter;
 	m_fpsCounter = 0;
@@ -78,8 +78,11 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	m_iWidth = _iWidth;
 	m_iHeight = _iHeight;
 
-	const float fBallVelX = 200.0f;
-	const float fBallVelY = 75.0f;
+	m_iAlienSpeed = 100;
+	m_bReverseAliens = false;
+
+	//const float fBallVelX = 200.0f;
+	//const float fBallVelY = 75.0f;
 
 	m_pBackground = new CBackGround();
 	VALIDATE(m_pBackground->Initialise());
@@ -87,8 +90,8 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	m_pBackground->SetX((float)m_iWidth / 2);
 	m_pBackground->SetY((float)m_iHeight / 2);
 
-	m_pBall = new CBall();
-	VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));
+	//m_pBall = new CBall();
+	//VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));
 
 	m_pPaddle = new CPaddle();
 	VALIDATE(m_pPaddle->Initialise());
@@ -148,7 +151,7 @@ CLevel::Draw()
 		m_pPlayerBullet->Draw();
 
 	m_pPaddle->Draw();
-	m_pBall->Draw();
+	//m_pBall->Draw();
 
 	DrawScore();
 	DrawFPS();
@@ -163,7 +166,7 @@ CLevel::Process(float _fDeltaTick)
 	}
 
 	m_pBackground->Process(_fDeltaTick);
-	m_pBall->Process(_fDeltaTick);
+	//m_pBall->Process(_fDeltaTick);
 	if (m_pPlayerBullet != NULL)
 	{
 		m_pPlayerBullet->Process(_fDeltaTick);
@@ -174,19 +177,36 @@ CLevel::Process(float _fDeltaTick)
 		}
 	}
 	m_pPaddle->Process(_fDeltaTick);
-	ProcessBallWallCollision();
+	//ProcessBallWallCollision();
 	//ProcessPaddleWallCollison();
-	ProcessBallPaddleCollision();
-	ProcessBallBrickCollision();
+	//ProcessBallPaddleCollision();
+	//ProcessBallBrickCollision();
 	if (m_pPlayerBullet != NULL)
 		ProcessBulletBrickCollision();
 
 	ProcessCheckForWin();
-	ProcessBallBounds();
+	//ProcessBallBounds();
 
 	for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
 	{
+		if (m_vecBricks[i]->IsHit())
+			continue;
 		m_vecBricks[i]->Process(_fDeltaTick);
+		m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick);
+		if (m_vecBricks[i]->GetX() > m_iWidth - m_vecBricks[i]->GetWidth() / 2)
+			m_bReverseAliens = true;
+		else if (m_vecBricks[i]->GetX() < m_vecBricks[i]->GetWidth() / 2)
+			m_bReverseAliens = true;
+	}
+	if (m_bReverseAliens)
+	{
+		m_iAlienSpeed *= -1;
+		m_bReverseAliens = false;
+		for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
+		{
+			m_vecBricks[i]->SetY(m_vecBricks[i]->GetY() + 25);
+			m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick*5);
+		}
 	}
 	/*
 	for (unsigned int i = 0; i < m_vecBullets.size(); ++i)
@@ -423,6 +443,6 @@ CLevel::AddPlayerBullet()
 	if (m_pPlayerBullet == NULL)
 	{
 		m_pPlayerBullet = new CBullet();
-		VALIDATE(m_pPlayerBullet->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -300));
+		VALIDATE(m_pPlayerBullet->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -500));
 	}
 }
