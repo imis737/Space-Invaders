@@ -205,6 +205,8 @@ CLevel::Process(float _fDeltaTick)
 		for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
 		{
 			m_vecBricks[i]->SetY(m_vecBricks[i]->GetY() + 25);
+			if (m_vecBricks[i]->GetY() > 725)
+				CGame::GetInstance().GameOverLost();
 			m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick*5);
 		}
 	}
