@@ -6,10 +6,10 @@
 //
 // (c) 2016 Media Design School
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: clock.h
+// Description	: Clock declaration file
+// Author		: Isaac Missingham and Francis Kirkpatrick
+// Mail			: isaac.mis6876@mediadesign.school.nz
 //
 
 #pragma once
@@ -29,30 +29,30 @@
 // Prototypes
 class CClock
 {
-    // Member Functions
+	// Member Functions
 public:
-    CClock();
-    ~CClock();
+	CClock();
+	~CClock();
 
-    bool Initialise();
+	bool Initialise();
 
-    void Process();
+	void Process();
 
-    float GetDeltaTick();
+	float GetDeltaTick();
 
 	int CountFramesPerSecond(float _DeltaTick);
 
 protected:
 
 private:
-    CClock(const CClock& _kr);
-    CClock& operator= (const CClock& _kr);
+	CClock(const CClock& _kr);
+	CClock& operator= (const CClock& _kr);
 
-    // Member Variables
+	// Member Variables
 public:
 
 protected:
-    double m_fTimeElapsed;
+	double m_fTimeElapsed;
 	double m_fDeltaTime;
 	double m_fLastTime;
 	double m_fCurrentTime;

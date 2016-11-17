@@ -6,12 +6,11 @@
 //
 // (c) 2016 Media Design School
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: brick.h
+// Description	: Brick declaration file, used for aliens
+// Author		: Isaac Missingham and Francis Kirkpatrick
+// Mail			: isaac.mis6876@mediadesign.school.nz
 //
-
 #pragma once
 
 #if !defined(__BRICK_H__)

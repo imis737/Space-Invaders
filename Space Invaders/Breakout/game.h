@@ -6,10 +6,10 @@
 //
 // (c) 2016 Media Design School
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: game.h
+// Description	: Game declaration file
+// Author		: Isaac Missingham and Francis Kirkpatrick
+// Mail			: isaac.mis6876@mediadesign.school.nz
 //
 
 

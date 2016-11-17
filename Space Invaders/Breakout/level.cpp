@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2016 Media Design School
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: level.cpp
+// Description	: Level implementation file, where lots of level initialisation takes place
+// Author		: Isaac Missingham and Francis Kirkpatrick
+// Mail			: isaac.mis6876@mediadesign.school.nz
 //
 
 // Library Includes
@@ -98,11 +98,11 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	// Set the paddle's position to be centered on the x, 
 	// and a little bit up from the bottom of the window.
 	m_pPaddle->SetX(_iWidth / 2.0f);
-	m_pPaddle->SetY(_iHeight - ( 1.5 * m_pPaddle->GetHeight()));
+	m_pPaddle->SetY(_iHeight - (m_pPaddle->GetHeight()));
 
-	const int kiNumBricks = 50;
-	const int kiStartX = 150;
-	const int kiGap = 10;
+	const int kiNumBricks = 40;
+	const int kiStartX = 100;
+	const int kiGap = 20;
 
 	int iCurrentX = kiStartX;
 	int iCurrentY = kiStartX;
@@ -120,7 +120,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		if (iCurrentX > _iWidth-pBrick->GetWidth()-100)
 		{
 			iCurrentX = kiStartX;
-			iCurrentY += 20;
+			iCurrentY += 40;
 		}
 
 		m_vecBricks.push_back(pBrick);
@@ -206,7 +206,7 @@ CLevel::Process(float _fDeltaTick)
 		for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
 		{
 			m_vecBricks[i]->SetY(m_vecBricks[i]->GetY() + 25);
-			if (m_vecBricks[i]->GetY() > 725)
+			if (m_vecBricks[i]->GetY() > 785)
 				CGame::GetInstance().GameOverLost();
 			m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick*5);
 		}

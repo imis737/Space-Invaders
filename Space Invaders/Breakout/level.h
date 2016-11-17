@@ -6,10 +6,10 @@
 //
 // (c) 2016 Media Design School
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: level.h
+// Description	: Level declaration file
+// Author		: Isaac Missingham and Francis Kirkpatrick
+// Mail			: isaac.mis6876@mediadesign.school.nz
 //
 
 #pragma once
@@ -37,19 +37,19 @@ class CBackGround;
 
 class CLevel
 {
-    // Member Functions
+	// Member Functions
 public:
-    CLevel();
-    virtual ~CLevel();
+	CLevel();
+	virtual ~CLevel();
 
-    virtual bool Initialise(int _iWidth, int _iHeight);
+	virtual bool Initialise(int _iWidth, int _iHeight);
 
-    virtual void Draw();
-    virtual void Process(float _fDeltaTick);
+	virtual void Draw();
+	virtual void Process(float _fDeltaTick);
 
-    CPaddle* GetPaddle() const;
+	CPaddle* GetPaddle() const;
 
-    int GetBricksRemaining() const;
+	int GetBricksRemaining() const;
 
 	bool AddPlayerBullet();
 	bool AddAlienBullet(float _fX, float _fY);
@@ -62,41 +62,41 @@ protected:
 	void ProcessBulletBrickCollision();
 	void ProcessBulletPlayerCollision(CBullet* _pBullet);
 
-    void ProcessCheckForWin();
+	void ProcessCheckForWin();
 
   //  void ProcessBallBounds();
 
-    void UpdateScoreText();
-    void DrawScore();
+	void UpdateScoreText();
+	void DrawScore();
 	void DrawFPS();
 
-    void SetBricksRemaining(int _i);
+	void SetBricksRemaining(int _i);
 
 private:
-    CLevel(const CLevel& _kr);
-    CLevel& operator= (const CLevel& _kr);
+	CLevel(const CLevel& _kr);
+	CLevel& operator= (const CLevel& _kr);
 
-    // Member Variables
+	// Member Variables
 public:
 
 protected:
 	CBackGround* m_pBackground;
  //   CBall* m_pBall;
-    CPaddle* m_pPaddle;
-    std::vector<CBrick*> m_vecBricks;
+	CPaddle* m_pPaddle;
+	std::vector<CBrick*> m_vecBricks;
 	std::vector<CBullet*> m_vecAlienBullets;
 	CBullet* m_pPlayerBullet;
 	CFPSCounter* m_fpsCounter;
 
-    int m_iWidth;
-    int m_iHeight;
+	int m_iWidth;
+	int m_iHeight;
 
-    int m_iBricksRemaining;
+	int m_iBricksRemaining;
 
 	int m_iAlienSpeed;
 	bool m_bReverseAliens;
 
-    std::string m_strScore;
+	std::string m_strScore;
 
 private:
 

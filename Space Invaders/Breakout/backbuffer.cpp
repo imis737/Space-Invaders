@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2016 Media Design School
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: backbuffer.cpp
+// Description	: Backbuffer implementation file
+// Author		: Isaac Missingham and Francis Kirkpatrick
+// Mail			: isaac.mis6876@mediadesign.school.nz
 //
 
 // Library Includes
@@ -25,6 +25,13 @@
 
 // Implementation
 
+
+/***********************
+* Equals: Backbuffer Constructor
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: Nothing
+* @return: void
+********************/
 CBackBuffer::CBackBuffer()
 : m_hWnd(0)
 , m_hDC(0)
@@ -36,6 +43,13 @@ CBackBuffer::CBackBuffer()
 
 }
 
+
+/***********************
+* Equals: Backbuffer destructor
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: Nothing
+* @return: void
+********************/
 CBackBuffer::~CBackBuffer()
 {
     SelectObject(m_hDC, m_hOldObject);
@@ -44,6 +58,13 @@ CBackBuffer::~CBackBuffer()
     DeleteObject(m_hDC);
 }
 
+
+/***********************
+* Equals: Initialises the backbuffer
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: HWND handle to main window, int width, and int height
+* @return: bool
+********************/
 bool
 CBackBuffer::Initialise(HWND _hWnd, int _iWidth, int _iHeight)
 {
@@ -72,6 +93,13 @@ CBackBuffer::Initialise(HWND _hWnd, int _iWidth, int _iHeight)
     return (true);
 }
 
+
+/***********************
+* Equals: Clears the backbuffer
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: Nothing
+* @return: void
+********************/
 void
 CBackBuffer::Clear()
 {
@@ -82,24 +110,52 @@ CBackBuffer::Clear()
     SelectObject(GetBFDC(), hOldBrush);
 }
 
+
+/***********************
+* Equals: Gets the HDC of the backbuffer
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: Nothing
+* @return: HDC
+********************/
 HDC
 CBackBuffer::GetBFDC() const
 {
     return (m_hDC);
 }
 
+
+/***********************
+* Equals: Gets the HDC of the backbuffer
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: Nothing
+* @return: HDC
+********************/
 int 
 CBackBuffer::GetWidth() const
 {
     return (m_iWidth);
 }
 
+
+/***********************
+* Equals: Returns the member variable height
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: Nothing
+* @return: int
+********************/
 int 
 CBackBuffer::GetHeight() const
 {
     return (m_iHeight);
 }
 
+
+/***********************
+* Equals: Blts the backbuffer onto the display
+* @author: Isaac Missingham & Francis Kirkpatrick
+* @parameter: Nothing
+* @return: void
+********************/
 void 
 CBackBuffer::Present()
 {
