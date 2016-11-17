@@ -52,6 +52,7 @@ public:
     int GetBricksRemaining() const;
 
 	bool AddPlayerBullet();
+	bool AddAlienBullet(float _fX, float _fY);
 
 protected:
     void ProcessBallWallCollision();
@@ -59,6 +60,7 @@ protected:
     void ProcessBallPaddleCollision();
     void ProcessBallBrickCollision();
 	void ProcessBulletBrickCollision();
+	void ProcessBulletPlayerCollision(CBullet* _pBullet);
 
     void ProcessCheckForWin();
 
@@ -82,7 +84,7 @@ protected:
     CBall* m_pBall;
     CPaddle* m_pPaddle;
     std::vector<CBrick*> m_vecBricks;
-	//std::vector<CBullet*> m_vecBullets;
+	std::vector<CBullet*> m_vecAlienBullets;
 	CBullet* m_pPlayerBullet;
 	CFPSCounter* m_fpsCounter;
 

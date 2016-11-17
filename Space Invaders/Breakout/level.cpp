@@ -143,10 +143,10 @@ CLevel::Draw()
 		m_vecBricks[i]->Draw();
 	}
 
-	/*for (unsigned int i = 0; i < m_vecBullets.size(); ++i)
+	for (unsigned int i = 0; i < m_vecAlienBullets.size(); ++i)
 	{
-		m_vecBullets[i]->Draw();
-	}*/
+		m_vecAlienBullets[i]->Draw();
+	}
 	if (m_pPlayerBullet != NULL)
 		m_pPlayerBullet->Draw();
 
@@ -191,12 +191,14 @@ CLevel::Process(float _fDeltaTick)
 	{
 		if (m_vecBricks[i]->IsHit())
 			continue;
-		m_vecBricks[i]->Process(_fDeltaTick);
-		m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick);
-		if (m_vecBricks[i]->GetX() > m_iWidth - m_vecBricks[i]->GetWidth() / 2)
-			m_bReverseAliens = true;
-		else if (m_vecBricks[i]->GetX() < m_vecBricks[i]->GetWidth() / 2)
-			m_bReverseAliens = true;
+		m_vecBricks[i]->Process(_fDeltaTick);									
+		m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick);	//move aliens horizontally
+		if (rand() % 100000 < 1)														// 0.001% chance of firing a projectile at the player this frame
+			AddAlienBullet(m_vecBricks[i]->GetX(), m_vecBricks[i]->GetY());				// Creates a projectile on the current alien
+		if (m_vecBricks[i]->GetX() > m_iWidth - m_vecBricks[i]->GetWidth() / 2)		// check if the aliens are too far to the right
+			m_bReverseAliens = true;													// reverse aliens
+		else if (m_vecBricks[i]->GetX() < m_vecBricks[i]->GetWidth() / 2)			// check if the aliens are too far to the left
+			m_bReverseAliens = true;													// reverse aliens
 	}
 	if (m_bReverseAliens)
 	{
@@ -210,11 +212,16 @@ CLevel::Process(float _fDeltaTick)
 			m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick*5);
 		}
 	}
-	/*
-	for (unsigned int i = 0; i < m_vecBullets.size(); ++i)
+	for (unsigned int i = 0; i < m_vecAlienBullets.size(); ++i)
 	{
-		m_vecBullets[i]->Process(_fDeltaTick);
-	}*/
+		m_vecAlienBullets[i]->Process(_fDeltaTick);
+		ProcessBulletPlayerCollision(m_vecAlienBullets[i]);
+		if (m_vecAlienBullets[i]->GetY() > 800)
+		{
+			delete m_vecAlienBullets[i];
+			m_vecAlienBullets.erase(m_vecAlienBullets.begin() + i);
+		}
+	}
    
 	
 	m_fpsCounter->CountFramesPerSecond(_fDeltaTick);
@@ -356,6 +363,29 @@ CLevel::ProcessBulletBrickCollision()
 }
 
 void
+CLevel::ProcessBulletPlayerCollision(CBullet* _pBullet)
+{
+	float fBallR = _pBullet->GetRadius();
+
+	float fBallX = _pBullet->GetX();
+	float fBallY = _pBullet->GetY();
+
+	float fPaddleX = m_pPaddle->GetX();
+	float fPaddleY = m_pPaddle->GetY();
+
+	float fPaddleH = m_pPaddle->GetHeight();
+	float fPaddleW = m_pPaddle->GetWidth();
+
+	if ((fBallX + fBallR > fPaddleX - fPaddleW / 2) && //ball.right > paddle.left
+		(fBallX - fBallR < fPaddleX + fPaddleW / 2) && //ball.left < paddle.right
+		(fBallY + fBallR > fPaddleY - fPaddleH / 2) && //ball.bottom > paddle.top
+		(fBallY - fBallR < fPaddleY + fPaddleH / 2))  //ball.top < paddle.bottom
+	{
+		CGame::GetInstance().GameOverLost();
+	}
+}
+
+void
 CLevel::ProcessCheckForWin()
 {
 	for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
@@ -440,11 +470,18 @@ CLevel::DrawFPS()
 bool
 CLevel::AddPlayerBullet()
 {
-	//m_vecBullets.push_back(new CBullet());
-	//m_vecBullets.back()->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -200);
 	if (m_pPlayerBullet == NULL)
 	{
 		m_pPlayerBullet = new CBullet();
 		VALIDATE(m_pPlayerBullet->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -500));
 	}
+}
+
+bool
+CLevel::AddAlienBullet(float _fX, float _fY)
+{
+	m_vecAlienBullets.push_back(new CBullet());
+	m_vecAlienBullets.back()->SetFromAlien(true);
+	VALIDATE(m_vecAlienBullets.back()->Initialise(_fX, _fY, 0, 100));
+	
 }

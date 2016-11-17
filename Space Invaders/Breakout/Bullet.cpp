@@ -50,6 +50,8 @@ CBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityX, float _fVeloc
 	m_fVelocityX = _fVelocityX;
 	m_fVelocityY = _fVelocityY;
 
+	m_bfromAlien = false;
+
 	return (true);
 }
 
@@ -96,4 +98,16 @@ float
 CBullet::GetRadius() const
 {
 	return (GetWidth() / 2.0f);
+}
+
+void
+CBullet::SetFromAlien(bool _bFromAlien)
+{
+	m_bfromAlien = _bFromAlien;
+}
+
+bool
+CBullet::GetFromAlien() const
+{
+	return (m_bfromAlien);
 }

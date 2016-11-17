@@ -47,6 +47,8 @@ public:
 	void SetVelocityY(float _fY);
 
 	float GetRadius() const;
+	bool GetFromAlien() const;
+	void SetFromAlien(bool _bFromAlien);
 
 protected:
 
@@ -60,6 +62,7 @@ public:
 protected:
 	float m_fVelocityX;
 	float m_fVelocityY;
+	bool m_bfromAlien;
 
 private:
 
