@@ -9,7 +9,7 @@
 // File Name	: brick.h
 // Description	: Brick declaration file, used for aliens
 // Author		: Isaac Missingham and Francis Kirkpatrick
-// Mail			: isaac.mis6876@mediadesign.school.nz
+// Mail			: isaac.mis6876@mediadesign.school.nz and francis.kir7286@mediadesign.school.nz
 //
 #pragma once
 

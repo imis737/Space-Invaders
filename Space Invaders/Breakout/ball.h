@@ -9,7 +9,7 @@
 // File Name	: ball.h
 // Description	: Ball declaration file, used for bullet 
 // Author		: Isaac Missingham and Francis Kirkpatrick
-// Mail			: isaac.mis6876@mediadesign.school.nz
+// Mail			: isaac.mis6876@mediadesign.school.nz and francis.kir7286@mediadesign.school.nz
 //
 
 #pragma once
