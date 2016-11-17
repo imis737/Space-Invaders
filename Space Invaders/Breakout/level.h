@@ -28,7 +28,7 @@
 // Constants
 
 // Prototypes
-class CBall;
+//class CBall;
 class CPaddle;
 class CBrick;
 class CBullet;
@@ -55,16 +55,16 @@ public:
 	bool AddAlienBullet(float _fX, float _fY);
 
 protected:
-    void ProcessBallWallCollision();
+  //  void ProcessBallWallCollision();
 	void ProcessPaddleWallCollison();
-    void ProcessBallPaddleCollision();
-    void ProcessBallBrickCollision();
+ //   void ProcessBallPaddleCollision();
+ //   void ProcessBallBrickCollision();
 	void ProcessBulletBrickCollision();
 	void ProcessBulletPlayerCollision(CBullet* _pBullet);
 
     void ProcessCheckForWin();
 
-    void ProcessBallBounds();
+  //  void ProcessBallBounds();
 
     void UpdateScoreText();
     void DrawScore();
@@ -81,7 +81,7 @@ public:
 
 protected:
 	CBackGround* m_pBackground;
-    CBall* m_pBall;
+ //   CBall* m_pBall;
     CPaddle* m_pPaddle;
     std::vector<CBrick*> m_vecBricks;
 	std::vector<CBullet*> m_vecAlienBullets;
