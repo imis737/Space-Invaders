@@ -1,15 +1,3 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(381,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Breakout.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  sprite.cpp
-  paddle.cpp
-c:\users\isaac\source\repos\space-invaders\space invaders\breakout\paddle.cpp(59): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
   main.cpp
-  level.cpp
-  game.cpp
-  framecounter.cpp
-  entity.cpp
-  brick.cpp
-  ball.cpp
-  Generating Code...
-c:\users\isaac\source\repos\space-invaders\space invaders\breakout\level.cpp(477): warning C4715: 'CLevel::AddPlayerBullet' : not all control paths return a value
-c:\users\isaac\source\repos\space-invaders\space invaders\breakout\level.cpp(486): warning C4715: 'CLevel::AddAlienBullet' : not all control paths return a value
   Breakout.vcxproj -> C:\Users\Isaac\Source\Repos\Space-Invaders\Space Invaders\Debug\Space Invaders.exe

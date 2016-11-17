@@ -9,7 +9,7 @@
 // File Name	: main.cpp
 // Description	: The main implementation file for the program
 // Author		: Isaac Missingham and Francis Kirkpatrick
-// Mail			: isaac.mis6876@mediadesign.school.nz
+// Mail			: isaac.mis6876@mediadesign.school.nz ||
 //
 
 //Library Includes

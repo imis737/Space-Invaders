@@ -135,5 +135,23 @@
     <Image Include="Sprites\BackgroundMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Sprites\bulletmask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\8.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\alienmask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\playermask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\7.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
