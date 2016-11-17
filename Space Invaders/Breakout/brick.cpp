@@ -72,6 +72,8 @@ CBrick::Process(float _fDeltaTick)
 
 	////So when the position of the bricks is less than the 
 
+
+
 	if (!m_bHit)
 	{
 		CEntity::Process(_fDeltaTick);
