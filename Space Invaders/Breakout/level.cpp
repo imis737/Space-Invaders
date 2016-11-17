@@ -165,7 +165,14 @@ CLevel::Process(float _fDeltaTick)
 	m_pBackground->Process(_fDeltaTick);
 	m_pBall->Process(_fDeltaTick);
 	if (m_pPlayerBullet != NULL)
+	{
 		m_pPlayerBullet->Process(_fDeltaTick);
+		if (m_pPlayerBullet->GetY() < 0)
+		{
+			delete m_pPlayerBullet;
+			m_pPlayerBullet = NULL;
+		}
+	}
 	m_pPaddle->Process(_fDeltaTick);
 	ProcessBallWallCollision();
 	//ProcessPaddleWallCollison();
@@ -416,6 +423,6 @@ CLevel::AddPlayerBullet()
 	if (m_pPlayerBullet == NULL)
 	{
 		m_pPlayerBullet = new CBullet();
-		VALIDATE(m_pPlayerBullet->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -200));
+		VALIDATE(m_pPlayerBullet->Initialise(m_pPaddle->GetX(), m_pPaddle->GetY(), 0, -300));
 	}
 }
