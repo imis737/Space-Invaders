@@ -37,11 +37,11 @@
 //#define CHEAT_BOUNCE_ON_BACK_WALL
 
 CLevel::CLevel()
-: m_iBricksRemaining(0)
-, m_pPaddle(0)
-, m_iWidth(0)
-, m_iHeight(0)
-, m_fpsCounter(0)
+	: m_iBricksRemaining(0)
+	, m_pPaddle(0)
+	, m_iWidth(0)
+	, m_iHeight(0)
+	, m_fpsCounter(0)
 {
 
 }
@@ -80,6 +80,14 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	m_iAlienSpeed = 100;
 	m_bReverseAliens = false;
 
+	m_fTimeElapsed = 0;
+	m_iMysteryShipCounter = 0;
+
+	m_iScore = 0;
+	m_iLives = 3;
+
+	UpdateLivesText();
+
 	//const float fBallVelX = 200.0f;
 	//const float fBallVelY = 75.0f;
 
@@ -117,7 +125,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 		iCurrentX += static_cast<int>(pBrick->GetWidth()) + kiGap;
 
-		if (iCurrentX > _iWidth-pBrick->GetWidth()-100)
+		if (iCurrentX > _iWidth - pBrick->GetWidth() - 100)
 		{
 			iCurrentX = kiStartX;
 			iCurrentY += 40;
@@ -142,6 +150,9 @@ CLevel::Draw()
 		m_vecBricks[i]->Draw();
 	}
 
+	if (m_pMysteryShip != NULL)
+		m_pMysteryShip->Draw();
+
 	for (unsigned int i = 0; i < m_vecAlienBullets.size(); ++i)
 	{
 		m_vecAlienBullets[i]->Draw();
@@ -153,6 +164,7 @@ CLevel::Draw()
 	//m_pBall->Draw();
 
 	DrawScore();
+	DrawLives();
 	DrawFPS();
 }
 
@@ -162,6 +174,13 @@ CLevel::Process(float _fDeltaTick)
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		AddPlayerBullet();
+	}
+
+	m_fTimeElapsed += _fDeltaTick;
+	if (m_fTimeElapsed > (m_iMysteryShipCounter + 1) * 15 && m_pMysteryShip == NULL)
+	{
+		AddMysteryShip();
+		m_iMysteryShipCounter++;
 	}
 
 	m_pBackground->Process(_fDeltaTick);
@@ -176,12 +195,26 @@ CLevel::Process(float _fDeltaTick)
 		}
 	}
 	m_pPaddle->Process(_fDeltaTick);
+
+	if (m_pMysteryShip != NULL)
+	{
+		m_pMysteryShip->Process(_fDeltaTick);
+		m_pMysteryShip->SetX(m_pMysteryShip->GetX() + 50 * _fDeltaTick);
+		if (m_pMysteryShip->GetX() > m_iWidth + m_pMysteryShip->GetWidth())
+		{
+			delete m_pMysteryShip;
+			m_pMysteryShip = NULL;
+		}
+	}
 	//ProcessBallWallCollision();
 	//ProcessPaddleWallCollison();
 	//ProcessBallPaddleCollision();
 	//ProcessBallBrickCollision();
 	if (m_pPlayerBullet != NULL)
 		ProcessBulletBrickCollision();
+
+	if (m_pPlayerBullet != NULL && m_pMysteryShip != NULL)
+		ProcessBulletMysteryCollision();
 
 	ProcessCheckForWin();
 	//ProcessBallBounds();
@@ -190,7 +223,7 @@ CLevel::Process(float _fDeltaTick)
 	{
 		if (m_vecBricks[i]->IsHit())
 			continue;
-		m_vecBricks[i]->Process(_fDeltaTick);									
+		m_vecBricks[i]->Process(_fDeltaTick);
 		m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick);	//move aliens horizontally
 		if (rand() % 100000 < 1)														// 0.001% chance of firing a projectile at the player this frame
 			AddAlienBullet(m_vecBricks[i]->GetX(), m_vecBricks[i]->GetY());				// Creates a projectile on the current alien
@@ -208,9 +241,10 @@ CLevel::Process(float _fDeltaTick)
 			m_vecBricks[i]->SetY(m_vecBricks[i]->GetY() + 25);
 			if (m_vecBricks[i]->GetY() > 785)
 				CGame::GetInstance().GameOverLost();
-			m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick*5);
+			m_vecBricks[i]->SetX(m_vecBricks[i]->GetX() + m_iAlienSpeed*_fDeltaTick * 5);
 		}
 	}
+
 	for (unsigned int i = 0; i < m_vecAlienBullets.size(); ++i)
 	{
 		m_vecAlienBullets[i]->Process(_fDeltaTick);
@@ -221,12 +255,12 @@ CLevel::Process(float _fDeltaTick)
 			m_vecAlienBullets.erase(m_vecAlienBullets.begin() + i);
 		}
 	}
-   
-	
+
+
 	m_fpsCounter->CountFramesPerSecond(_fDeltaTick);
 }
 
-CPaddle* 
+CPaddle*
 CLevel::GetPaddle() const
 {
 	return (m_pPaddle);
@@ -353,6 +387,7 @@ CLevel::ProcessBulletBrickCollision()
 				delete m_pPlayerBullet;
 				m_pPlayerBullet = 0;
 				m_vecBricks[i]->SetHit(true);
+				m_iScore += 50;
 
 				SetBricksRemaining(GetBricksRemaining() - 1);
 				return;
@@ -380,7 +415,49 @@ CLevel::ProcessBulletPlayerCollision(CBullet* _pBullet)
 		(fBulletY + fBulletR > fPaddleY - fPaddleH / 2) && //bullet.bottom > paddle.top
 		(fBulletY - fBulletR < fPaddleY + fPaddleH / 2))  //bullet.top < paddle.bottom
 	{
-		CGame::GetInstance().GameOverLost();
+		if (m_iLives > 0)
+		{
+			m_iLives--;
+			UpdateLivesText();
+			m_pPaddle->SetX(m_iWidth / 2.0f);
+			/*for (unsigned int i = 0; i < m_vecAlienBullets.size(); ++i)
+			{
+			delete m_vecAlienBullets[i];
+			m_vecAlienBullets.erase(m_vecAlienBullets.begin() + i);
+			}*/
+		}
+		else
+		{
+			CGame::GetInstance().GameOverLost();
+		}
+	}
+}
+
+void
+CLevel::ProcessBulletMysteryCollision()
+{
+	float fBulletR = m_pPlayerBullet->GetRadius();
+
+	float fBulletX = m_pPlayerBullet->GetX();
+	float fBulletY = m_pPlayerBullet->GetY();
+
+	float fMysteryX = m_pMysteryShip->GetX();
+	float fMysteryY = m_pMysteryShip->GetY();
+
+	float fPaddleH = m_pMysteryShip->GetHeight();
+	float fPaddleW = m_pMysteryShip->GetWidth();
+
+	if ((fBulletX + fBulletR > fMysteryX - fPaddleW / 2) && //bullet.right > paddle.left
+		(fBulletX - fBulletR < fMysteryX + fPaddleW / 2) && //bullet.left < paddle.right
+		(fBulletY + fBulletR > fMysteryY - fPaddleH / 2) && //bullet.bottom > paddle.top
+		(fBulletY - fBulletR < fMysteryY + fPaddleH / 2))  //bullet.top < paddle.bottom
+	{
+		delete m_pPlayerBullet;
+		m_pPlayerBullet = 0;
+		delete m_pMysteryShip;
+		m_pMysteryShip = 0;
+		m_iScore += 150;
+		UpdateScoreText();
 	}
 }
 
@@ -421,13 +498,13 @@ CLevel::ProcessCheckForWin()
 //	}
 //}
 
-int 
+int
 CLevel::GetBricksRemaining() const
 {
 	return (m_iBricksRemaining);
 }
 
-void 
+void
 CLevel::SetBricksRemaining(int _i)
 {
 	m_iBricksRemaining = _i;
@@ -442,26 +519,43 @@ CLevel::DrawScore()
 	const int kiX = 0;
 	const int kiY = m_iHeight - 14;
 	SetBkMode(hdc, TRANSPARENT);
-	
+	SetTextColor(hdc, RGB(255, 255, 255));
 	TextOutA(hdc, kiX, kiY, m_strScore.c_str(), static_cast<int>(m_strScore.size()));
 }
 
-
-
-void 
-CLevel::UpdateScoreText()
+void
+CLevel::DrawLives()
 {
-	m_strScore = "Bricks Remaining: ";
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
 
-	m_strScore += ToString(GetBricksRemaining());
+	const int kiX = 0;
+	const int kiY = m_iHeight - 28;
+	SetBkMode(hdc, TRANSPARENT);
+	SetTextColor(hdc, RGB(255, 255, 255));
+	TextOutA(hdc, kiX, kiY, m_strLives.c_str(), static_cast<int>(m_strLives.size()));
 }
 
+void
+CLevel::UpdateScoreText()
+{
+	m_strScore = "Score: ";
 
-void 
+	m_strScore += ToString(m_iScore);
+}
+
+void
+CLevel::UpdateLivesText()
+{
+	m_strLives = "Lives: ";
+
+	m_strLives += ToString(m_iLives);
+}
+
+void
 CLevel::DrawFPS()
 {
-	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC(); 
-
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+	SetTextColor(hdc, RGB(255, 255, 255));
 	m_fpsCounter->DrawFPSText(hdc, m_iWidth, m_iHeight);
 
 }
@@ -482,5 +576,15 @@ CLevel::AddAlienBullet(float _fX, float _fY)
 	m_vecAlienBullets.push_back(new CBullet());
 	m_vecAlienBullets.back()->SetFromAlien(true);
 	VALIDATE(m_vecAlienBullets.back()->Initialise(_fX, _fY, 0, 100));
-	
+
+}
+
+bool
+CLevel::AddMysteryShip()
+{
+	m_pMysteryShip = new CBrick();
+	m_pMysteryShip->SetMystery(true);
+	m_pMysteryShip->SetX(-50);
+	m_pMysteryShip->SetY(50);
+	VALIDATE(m_pMysteryShip->Initialise());
 }

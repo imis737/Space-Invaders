@@ -53,21 +53,25 @@ public:
 
 	bool AddPlayerBullet();
 	bool AddAlienBullet(float _fX, float _fY);
+	bool AddMysteryShip();
 
 protected:
-  //  void ProcessBallWallCollision();
+	//  void ProcessBallWallCollision();
 	void ProcessPaddleWallCollison();
- //   void ProcessBallPaddleCollision();
- //   void ProcessBallBrickCollision();
+	//   void ProcessBallPaddleCollision();
+	//   void ProcessBallBrickCollision();
 	void ProcessBulletBrickCollision();
 	void ProcessBulletPlayerCollision(CBullet* _pBullet);
+	void ProcessBulletMysteryCollision();
 
 	void ProcessCheckForWin();
 
-  //  void ProcessBallBounds();
+	//  void ProcessBallBounds();
 
 	void UpdateScoreText();
 	void DrawScore();
+	void UpdateLivesText();
+	void DrawLives();
 	void DrawFPS();
 
 	void SetBricksRemaining(int _i);
@@ -81,7 +85,7 @@ public:
 
 protected:
 	CBackGround* m_pBackground;
- //   CBall* m_pBall;
+	//   CBall* m_pBall;
 	CPaddle* m_pPaddle;
 	std::vector<CBrick*> m_vecBricks;
 	std::vector<CBullet*> m_vecAlienBullets;
@@ -96,7 +100,16 @@ protected:
 	int m_iAlienSpeed;
 	bool m_bReverseAliens;
 
+	double m_fTimeElapsed;
+	int m_iMysteryShipCounter;
+
+	CBrick* m_pMysteryShip;
+
+	int m_iScore;
+	int m_iLives;
+
 	std::string m_strScore;
+	std::string m_strLives;
 
 private:
 

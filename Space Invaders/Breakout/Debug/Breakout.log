@@ -1,3 +1,37 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Breakout.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  main.cpp
-  Breakout.vcxproj -> C:\Users\Francis\Source\Repos\Space-Invaders2\Space Invaders\Debug\Space Invaders.exe
+﻿Build started 18/11/2016 2:47:13 p.m..
+     1>Project "D:\Users\Francis.Kir7286\Source\Repos\Space-Invaders3\Space Invaders\Breakout\Breakout.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Breakout.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt brick.cpp game.cpp level.cpp main.cpp
+         level.cpp
+         brick.cpp
+         Generating Code...
+     1>d:\users\francis.kir7286\source\repos\space-invaders3\space invaders\breakout\level.cpp(571): warning C4715: 'CLevel::AddPlayerBullet' : not all control paths return a value
+     1>d:\users\francis.kir7286\source\repos\space-invaders3\space invaders\breakout\level.cpp(590): warning C4715: 'CLevel::AddMysteryShip' : not all control paths return a value
+     1>d:\users\francis.kir7286\source\repos\space-invaders3\space invaders\breakout\level.cpp(580): warning C4715: 'CLevel::AddAlienBullet' : not all control paths return a value
+         Compiling...
+         game.cpp
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\Francis.Kir7286\Source\Repos\Space-Invaders3\Space Invaders\Debug\Space Invaders.exe" /INCREMENTAL /NOLOGO winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\Francis.Kir7286\Source\Repos\Space-Invaders3\Space Invaders\Debug\Space Invaders.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\Francis.Kir7286\Source\Repos\Space-Invaders3\Space Invaders\Debug\Space Invaders.lib" /MACHINE:X86 Debug\Breakout.res
+         Debug\backbuffer.obj
+         Debug\background.obj
+         Debug\ball.obj
+         Debug\brick.obj
+         Debug\Bullet.obj
+         Debug\clock.obj
+         Debug\entity.obj
+         Debug\framecounter.obj
+         Debug\game.obj
+         Debug\level.obj
+         Debug\main.obj
+         Debug\paddle.obj
+         Debug\sprite.obj
+         Breakout.vcxproj -> D:\Users\Francis.Kir7286\Source\Repos\Space-Invaders3\Space Invaders\Debug\Space Invaders.exe
+     1>Done Building Project "D:\Users\Francis.Kir7286\Source\Repos\Space-Invaders3\Space Invaders\Breakout\Breakout.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.96

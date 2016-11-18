@@ -30,30 +30,34 @@
 
 class CBrick : public CEntity
 {
-    // Member Functions
+	// Member Functions
 public:
-    CBrick();
-    virtual ~CBrick();
+	CBrick();
+	virtual ~CBrick();
 
-    virtual bool Initialise();
+	virtual bool Initialise();
 
-    virtual void Draw();
-    virtual void Process(float _fDeltaTick);
+	virtual void Draw();
+	virtual void Process(float _fDeltaTick);
 
-    void SetHit(bool _b);
-    bool IsHit() const;
+	void SetHit(bool _b);
+	bool IsHit() const;
+
+	void SetMystery(bool _b);
+	bool IsMystery() const;
 
 protected:
 
 private:
-    CBrick(const CBrick& _kr);
-    CBrick& operator= (const CBrick& _kr);
+	CBrick(const CBrick& _kr);
+	CBrick& operator= (const CBrick& _kr);
 
-    // Member Variables
+	// Member Variables
 public:
 
 protected:
-    bool m_bHit;
+	bool m_bHit;
+	bool m_bMystery;
 
 private:
 

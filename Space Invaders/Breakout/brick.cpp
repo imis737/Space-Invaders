@@ -28,7 +28,8 @@
 // Implementation
 
 CBrick::CBrick()
-: m_bHit(false)
+	: m_bHit(false)
+	, m_bMystery(false)
 {
 
 }
@@ -92,3 +93,14 @@ CBrick::IsHit() const
 	return (m_bHit);
 }
 
+void
+CBrick::SetMystery(bool _b)
+{
+	m_bMystery = _b;
+}
+
+bool
+CBrick::IsMystery() const
+{
+	return (m_bMystery);
+}
