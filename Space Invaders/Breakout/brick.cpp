@@ -42,8 +42,16 @@ CBrick::~CBrick()
 bool
 CBrick::Initialise()
 {
-	VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
-
+	if (!m_bMystery)
+	{
+		VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
+	}
+	else
+	{
+		VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK)); // TODO: Change IDB_BRICKSPRITE and IDB_BRICKMASK to the mystery images
+	}
+	
+	
 	return (true);
 }
 
